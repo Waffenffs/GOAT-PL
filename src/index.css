@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Karla', sans-serif;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 100%;
+}
