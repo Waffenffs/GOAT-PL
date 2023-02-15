@@ -1,3 +1,53 @@
+/* css styling for phones */
+@media (max-width: 1100px){
+
+  .select {
+    font-size: 1.2rem;
+  }
+
+  .sectionContainer {
+    padding: 0 230px;
+  }
+
+
+  .todo-input {
+    width: 30rem !important;
+  }
+
+  .buttonContainer {
+    display: flex;
+    margin: 0;
+  }
+
+  .addToDo,
+  .deleteToDo {
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
+    font-size: 30px;
+  }
+
+  .todoContainer {
+    border: 1px solid white;
+    margin: 0 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 10vh;
+  }
+
+  .todoTitle {
+    font-size: 1.5em !important;
+  }
+
+  .deletion {
+    height: 1.5em;
+  }
+}
+
 .loginPage {
   display: flex;
   justify-content: center;
@@ -134,7 +184,7 @@ input.checkbox-style {
   margin-left: 30px;
   margin-right: 20px;
   border-radius: 30px;
-  min-width: 21em;
+  width: 21em;
   font-size: 27px;
   text-indent: 10px;
   height: 50px;
