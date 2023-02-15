@@ -2,11 +2,10 @@ import { useEffect, useState } from "react"
 import { firebaseConfig } from "./firebaseConfig"
 import { initializeApp } from 'firebase/app'
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import { Route, Routes} from 'react-router-dom'
 import {GiRamProfile} from 'react-icons/gi'
 import {CgProfile} from 'react-icons/cg'
-import {AiOutlineEdit} from 'react-icons/ai'
 import { nanoid } from 'nanoid'
+import { motion } from 'framer-motion'
 import './App.css'
 
 // initialize firebase
@@ -23,6 +22,7 @@ export default function App(){
     ####################
 
     1. Handle populating the database with each todos
+      - modify documents everytime active is changed by user
 
   */
 
@@ -45,6 +45,21 @@ export default function App(){
     active: true,
   }])
 
+  // todos state initilization
+  useEffect(() => {
+    setToDos(JSON.parse(localStorage.getItem('todos')) || [{
+      id: 1,
+      title: 'Auto-Generated Task',
+      description: 'This is an auto-generated task. You may edit it or remove it to your liking. Have fun.',
+      active: true,
+    }])
+  }, [])
+
+  // update todos in localstorage everytime change happens
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(toDos))
+  }, [toDos])
+
   // check if user is logged in
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
@@ -63,7 +78,7 @@ export default function App(){
   const changeActiveState = (key) => {
     const newTodos = toDos.map((todo) => {
       if(todo.id === key){
-        return {...todo, active: !todo.active}
+        return {...todo, active: !todo.active, changed: !todo.changed}
       }
       return todo
     })
@@ -93,14 +108,24 @@ export default function App(){
 
     return(
       <>
-        <div className="todoContainer" style={{display: displayComponent()}}>
+        <motion.div 
+          className="todoContainer" 
+          style={{display: displayComponent()}}
+          initial={{ scale : 0 }}
+          animate={{ scale : 1}}
+          transition={{
+            type: "spring",
+            stiffness: 260,
+            damping: 20
+          }}
+        >
           {deleteToDos && 
              <button className="deletion" onClick={() => deleteToDo(todo.id)}>DELETE</button>
           }
           <div className="todoTitleContainer"><h1 className="todoTitle">{todo.title}</h1></div>
           {todo.active ? <div className="todoTag" onClick={() => changeActiveState(todo.id)}>active</div> 
           : <div className="todoTag completed" onClick={() => changeActiveState(todo.id)}>completed</div>}
-        </div>
+        </motion.div>
       </>
     )
   })
@@ -113,6 +138,7 @@ export default function App(){
         title: todoInput,
         description: 'This is an auto-generated task. You may edit it or remove it to your liking. Have fun.',
         active: true,
+        changed: false,
       }
 
       setToDos(prevArray => [...prevArray, toDoObject])
@@ -239,7 +265,6 @@ export default function App(){
           </div>
         </main>
       </>
-        
       }
     </div>
   )
