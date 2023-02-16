@@ -276,3 +276,9 @@ input.checkbox-style {
 .completed {
   background-color: gray;
 }
+
+.registerPageContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 78px;
+}
